@@ -52,6 +52,12 @@
             cursor: pointer;
             margin-top: 10px;
         }
+        .brief {
+            font-weight: 400;
+            font-size: 1em;
+            padding-top: .75em;
+            padding-bottom: 2em;
+        }
     </style>
     <script>
         function copiarCodigoPix() {
@@ -65,13 +71,35 @@
             btn.innerText = "Copiado ✔";
             btn.classList.add("copiado"); // Adiciona a classe que altera a cor para verde
         }
+
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = 0;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            var tempoRestante = {{ tempo_restante }};  // Tempo restante passado pelo backend em segundos
+            var display = document.querySelector('#tempo');
+            startTimer(tempoRestante, display);
+        };
     </script>
 </head>
 <body>
     <div class="pix-container">
         <img src="{{ url_for('qr_code', code=request.args.get('code')) }}" alt="QR Code Pix" style="max-width: 100%; height: auto;">
-        <p><strong>Valor da compra:</strong> R$ {{ valor }}</p>
-        <p><strong>Tempo restante:</strong> {{ tempo_restante.strftime('%M:%S') }}</p>
+        <p><strong>Tempo restante:</strong> <span id="tempo">00:00</span></p>
         <p>Escaneie o código com seu celular</p>
         <p>Abra o app do seu banco no celular, escolha Pix e aponte a câmera para o código</p>
 

@@ -1,8 +1,8 @@
-import qrcode
-from flask import Flask, request, render_template, send_file, redirect, url_for
-from io import BytesIO
+from flask import Flask, request, render_template, redirect, url_for, send_file
+from datetime import datetime, timedelta
 import base64
-import datetime
+import qrcode
+from io import BytesIO
 
 app = Flask(__name__)
 
@@ -31,14 +31,19 @@ def gerar_qrcode_pix(codigo_pix):
     buffer.seek(0)
     return buffer
 
-# Página inicial para inserir o código Pix
+# Página inicial para gerar o QR code
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         codigo_pix = request.form.get('codigo_pix')
         valor = request.form.get('valor')
-        codigo_base64 = codificar_pix(codigo_pix)  # Codifica o Pix
-        return redirect(url_for('exibir_qrcode', code=codigo_base64, valor=valor))
+
+        expiration_time = datetime.now() + timedelta(minutes=1)
+        expiration_encoded = base64.urlsafe_b64encode(expiration_time.isoformat().encode()).decode()
+
+        codigo_base64 = codificar_pix(codigo_pix)
+
+        return redirect(url_for('exibir_qrcode', code=codigo_base64, exp=expiration_encoded, valor=valor))
     return render_template('index.html')
 
 # Página que exibe o QR Code e os detalhes do Pix
@@ -46,17 +51,31 @@ def index():
 def exibir_qrcode():
     codigo_base64 = request.args.get('code')
     valor = request.args.get('valor')
-    codigo_pix = decodificar_pix(codigo_base64)  # Decodifica o Pix
-    tempo_restante = datetime.datetime.now() + datetime.timedelta(minutes=10)  # 10 minutos
+    expiration_encoded = request.args.get('exp')
+
+    expiration_time = datetime.fromisoformat(base64.urlsafe_b64decode(expiration_encoded).decode())
+
+    now = datetime.now()
+    if now > expiration_time:
+        return redirect(url_for('expired'))
+
+    codigo_pix = decodificar_pix(codigo_base64)
+    tempo_restante = (expiration_time - now).seconds
     return render_template('pix_page.html', codigo_pix=codigo_pix, valor=valor, tempo_restante=tempo_restante)
 
-# Servir o QR code gerado como imagem
+# Rota para exibir o QR code
 @app.route('/qr_code')
 def qr_code():
     codigo_base64 = request.args.get('code')
-    codigo_pix = decodificar_pix(codigo_base64)  # Decodifica o Pix
+    codigo_pix = decodificar_pix(codigo_base64)
+    
     buffer = gerar_qrcode_pix(codigo_pix)
     return send_file(buffer, mimetype='image/png')
+
+# Página de expiração do pagamento
+@app.route('/expired')
+def expired():
+    return render_template('expired.html'), 403
 
 if __name__ == '__main__':
     app.run(debug=True)
