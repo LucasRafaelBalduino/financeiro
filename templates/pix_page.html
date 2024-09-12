@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Pix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .pix-container {
+            width: 300px;
+            margin: 50px auto;
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .pix-container img {
+            margin-bottom: 20px;
+        }
+        .pix-container p {
+            margin: 5px 0;
+        }
+        .codigo-pix {
+            display: none;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function mostrarCodigoPix() {
+            var x = document.getElementById("codigoPixContainer");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        
+        function copiarCodigoPix() {
+            var codigoPixInput = document.getElementById("codigoPix");
+            codigoPixInput.select();
+            codigoPixInput.setSelectionRange(0, 99999); /* Para dispositivos móveis */
+            document.execCommand("copy");
+            alert("Código Pix copiado: " + codigoPixInput.value);
+        }
+    </script>
+</head>
+<body>
+    <div class="pix-container">
+        <img src="{{ url_for('qr_code', code=request.args.get('code')) }}" alt="QR Code Pix" style="max-width: 100%; height: auto;">
+        <p><strong>Valor da compra:</strong> R$ {{ valor }}</p>
+        <p><strong>Tempo restante:</strong> {{ tempo_restante.strftime('%M:%S') }}</p>
+        <p>Escaneie o código com seu celular</p>
+        <p>Abra o app do seu banco no celular, escolha Pix e aponte a câmera para o código</p>
+
+        <button class="btn" onclick="mostrarCodigoPix()">Pagar sem o celular</button>
+
+        <!-- Container para o código Pix -->
+        <div id="codigoPixContainer" class="codigo-pix">
+            <p>Código Pix para copiar:</p>
+            <input type="text" value="{{ codigo_pix }}" id="codigoPix" readonly>
+            <button class="btn" onclick="copiarCodigoPix()">Copiar Código</button>
+        </div>
+    </div>
+</body>
+</html>
