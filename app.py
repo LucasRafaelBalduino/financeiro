@@ -38,7 +38,7 @@ def index():
         codigo_pix = request.form.get('codigo_pix')
         valor = request.form.get('valor')
 
-        expiration_time = datetime.now() + timedelta(minutes=1)
+        expiration_time = datetime.now() + timedelta(minutes=60)
         expiration_encoded = base64.urlsafe_b64encode(expiration_time.isoformat().encode()).decode()
 
         codigo_base64 = codificar_pix(codigo_pix)
