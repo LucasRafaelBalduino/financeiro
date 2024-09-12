@@ -6,156 +6,148 @@
     <title>Gerar QR Code Pix</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f8f8;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        
-        header {
-            width: 100%;
-            background-color: #fff;
-            padding: 20px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .header-title {
-            display: flex;
-            align-items: center;
-        }
-        
-        .icon {
-            max-width: 30px;
-            margin-right: 10px;
-        }
-        
-        .title {
-            font-weight: bold;
-            font-size: 1.5em;
-            color: #333;
-        }
-        
-        .help-button {
-            background-color: #e0e0e0;
-            color: #333;
-            padding: 8px 12px;
-            text-decoration: none;
-            border-radius: 20px;
-            font-size: 0.9em;
-            display: flex;
-            align-items: center;
-        }
-        
-        .help-button:hover {
-            background-color: #d0d0d0;
-        }
-        
-        main {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-        }
-        
-        .content {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
-        }
-        
-        h2 {
-            color: #333;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            font-weight: normal;
-        }
-        
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        label {
-            font-size: 1.1em;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1em;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-        
-        button {
-            background-color: #004aad;
-            color: #ffffff;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #003c8a;
-        }
-        
-        footer {
-            padding: 20px;
-            background-color: #004aad;
-            color: #ffffff;
-            text-align: center;
-            font-size: 0.9em;
-        }
-    </style>
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  header {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-title {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    max-width: 30px;
+    margin-right: 10px;
+  }
+  
+  .title {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .help-button {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+  }
+  
+  .help-button:hover {
+    background-color: #d0d0d0;
+  }
+  
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  
+  .content {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  h2 {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    font-weight: normal;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  label {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  button {
+    background-color: #004aad;
+    color: #ffffff;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #003c8a;
+  }
+  
+  footer {
+    padding: 20px;
+    background-color: #004aad;
+    color: #ffffff;
+    text-align: center;
+    font-size: 0.9em;
+  }
+  
+      </style>
 </head>
 <body>
     <header>
         <img class="logo-ver" src="https://verginia.vtexassets.com/assets/vtex.file-manager-graphql/images/fc2eb161-4473-4914-b81e-20f3a2128146___9837c08760fd78d564c1d14383a852cf.jpg" width="120px" alt="Tintas Verginia" class="logo">
         <div class="header-title">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo%E2%80%94pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg/800px-Logo%E2%80%94pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg.png" width="120px" alt="QR Code Icon" class="">
+       
         </div>
         <a href="#" class="help-button"></a>
     </header>
     <main>
-        <div class="content">
-            <h2>Insira o código Pix</h2>
+    <div class="content">
+    <h2>Insira o código Pix</h2>
 
-            <!-- Formulário com target _blank para abrir em nova aba -->
-            <form method="POST" action="/gerar_qrcode" id="meuFormulario">
-                <label for="codigo_pix">Código Pix:</label><br>
-                <input type="text" id="codigo_pix" name="codigo_pix" required><br>
+    <form method="POST" target="_blank">
+        <label for="codigo_pix">Código Pix:</label><br>
+        <input type="text" id="codigo_pix" name="codigo_pix" required><br>
 
-                <!-- Botão que abrirá o formulário em nova aba -->
-                <button type="button" onclick="abrirNovaAba()">Gerar QR Code</button>
-            </form>
-        </div>
-    </main>
-
-    <script>
-        // Função para abrir o formulário em uma nova aba
-        function abrirNovaAba() {
-            var form = document.getElementById('meuFormulario');
-            form.target = '_blank'; // Define que o formulário abrirá o resultado em nova aba
-            form.submit();          // Submete o formulário
-        }
-    </script>
+        <button type="submit">Gerar QR Code</button>
+    </form>
+</div>
+</main>
 </body>
 </html>
