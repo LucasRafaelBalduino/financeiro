@@ -1,114 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code Pix</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .pix-container {
-            width: 300px;
-            margin: 50px auto;
-            text-align: center;
-            border: 1px solid #ccc;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .pix-container img {
-            margin-bottom: 20px;
-        }
-        .pix-container p {
-            margin: 5px 0;
-        }
-        .codigo-pix {
-            display: block;
-        }
-        .btn {
-            background-color: #134CD8;
-            color: white;
-            border-radius: .25em;
-            box-sizing: border-box;
-            font-weight: 500;
-            padding: 0.75em 2.5em;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .btn.copiado {
-            background-color: #28a745; /* Verde */
-            border-radius: .25em;
-            box-sizing: border-box;
-            font-weight: 500;
-            padding: 0.75em 2.5em;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .brief {
-            font-weight: 400;
-            font-size: 1em;
-            padding-top: .75em;
-            padding-bottom: 2em;
-        }
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .pix-container {
+        width: 300px;
+        margin: 50px auto;
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .pix-container img {
+        margin-bottom: 20px;
+      }
+      .pix-container p {
+        margin: 5px 0;
+      }
+      .codigo-pix {
+        display: block;
+      }
+      .btn {
+        background-color: #134cd8;
+        color: white;
+        border-radius: 0.25em;
+        box-sizing: border-box;
+        font-weight: 500;
+        padding: 0.75em 2.5em;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      .btn.copiado {
+        background-color: #28a745; /* Verde */
+        border-radius: 0.25em;
+        box-sizing: border-box;
+        font-weight: 500;
+        padding: 0.75em 2.5em;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      .brief {
+        font-weight: 400;
+        font-size: 1em;
+        padding-top: 0.75em;
+        padding-bottom: 2em;
+      }
     </style>
     <script>
-        function copiarCodigoPix() {
-            var codigoPixInput = document.getElementById("codigoPix");
-            codigoPixInput.select();
-            codigoPixInput.setSelectionRange(0, 99999); /* Para dispositivos móveis */
-            document.execCommand("copy");
+      function copiarCodigoPix() {
+          var codigoPixInput = document.getElementById("codigoPix");
+          codigoPixInput.select();
+          codigoPixInput.setSelectionRange(0, 99999); /* Para dispositivos móveis */
+          document.execCommand("copy");
 
-            // Alterar o botão para indicar que o código foi copiado
-            var btn = document.getElementById("copiarBtn");
-            btn.innerText = "Copiado ✔";
-            btn.classList.add("copiado"); // Adiciona a classe que altera a cor para verde
-        }
+          // Alterar o botão para indicar que o código foi copiado
+          var btn = document.getElementById("copiarBtn");
+          btn.innerText = "Copiado ✔";
+          btn.classList.add("copiado"); // Adiciona a classe que altera a cor para verde
+      }
 
-        function startTimer(duration, display) {
-            var timer = duration, minutes, seconds;
-            setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
+      function startTimer(duration, display) {
+          var timer = duration, minutes, seconds;
+          setInterval(function () {
+              minutes = parseInt(timer / 60, 10);
+              seconds = parseInt(timer % 60, 10);
 
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
+              minutes = minutes < 10 ? "0" + minutes : minutes;
+              seconds = seconds < 10 ? "0" + seconds : seconds;
 
-                display.textContent = minutes + ":" + seconds;
+              display.textContent = minutes + ":" + seconds;
 
-                if (--timer < 0) {
-                    timer = 0;
-                }
-            }, 1000);
-        }
+              if (--timer < 0) {
+                  timer = 0;
+              }
+          }, 1000);
+      }
 
-        window.onload = function () {
-            var tempoRestante = {{ tempo_restante }};  // Tempo restante passado pelo backend em segundos
-            var display = document.querySelector('#tempo');
-            startTimer(tempoRestante, display);
-        };
+      window.onload = function () {
+        var tempoRestante = {{ tempo_restante | tojson }};  // Corrige a sintaxe do uso de tojson
+        var display = document.querySelector('#tempo');
+        startTimer(tempoRestante, display);
+    };
+
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="pix-container">
-        <img src="{{ url_for('qr_code', code=request.args.get('code')) }}" alt="QR Code Pix" style="max-width: 100%; height: auto;">
-        <p><strong>Tempo restante:</strong> <span id="tempo">00:00</span></p>
-        <p>Escaneie o código com seu celular</p>
-        <p>Abra o app do seu banco no celular, escolha Pix e aponte a câmera para o código</p>
+      <img
+        src="{{ url_for('qr_code', code=request.args.get('code')) }}"
+        alt="QR Code Pix"
+        style="max-width: 100%; height: auto"
+      />
+      <p><strong>Tempo restante:</strong> <span id="tempo">00:00</span></p>
+      <p>Escaneie o código com seu celular</p>
+      <p>
+        Abra o app do seu banco no celular, escolha Pix e aponte a câmera para o
+        código
+      </p>
 
-        <!-- Container para o código Pix -->
-        <div id="codigoPixContainer" class="codigo-pix">
-            <p>Código Pix para copiar:</p>
-            <input type="text" value="{{ codigo_pix }}" id="codigoPix" readonly>
-            <button id="copiarBtn" class="btn" onclick="copiarCodigoPix()">Copiar Código</button>
-        </div>
+      <!-- Container para o código Pix -->
+      <div id="codigoPixContainer" class="codigo-pix">
+        <p>Código Pix para copiar:</p>
+        <input type="text" value="{{ codigo_pix }}" id="codigoPix" readonly />
+        <button id="copiarBtn" class="btn" onclick="copiarCodigoPix()">
+          Copiar Código
+        </button>
+      </div>
     </div>
-</body>
+  </body>
 </html>
