@@ -23,13 +23,28 @@
             margin: 5px 0;
         }
         .codigo-pix {
-            display: none;
+            display: block;
         }
         .btn {
-            background-color: #007bff;
+            background-color: #134CD8;
             color: white;
-            border: none;
-            padding: 10px 20px;
+            border-radius: .25em;
+            box-sizing: border-box;
+            font-weight: 500;
+            padding: 0.75em 2.5em;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn.copiado {
+            background-color: #28a745; /* Verde */
+            border-radius: .25em;
+            box-sizing: border-box;
+            font-weight: 500;
+            padding: 0.75em 2.5em;
             text-align: center;
             text-decoration: none;
             display: inline-block;
@@ -39,21 +54,16 @@
         }
     </style>
     <script>
-        function mostrarCodigoPix() {
-            var x = document.getElementById("codigoPixContainer");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-        
         function copiarCodigoPix() {
             var codigoPixInput = document.getElementById("codigoPix");
             codigoPixInput.select();
             codigoPixInput.setSelectionRange(0, 99999); /* Para dispositivos móveis */
             document.execCommand("copy");
-            alert("Código Pix copiado: " + codigoPixInput.value);
+
+            // Alterar o botão para indicar que o código foi copiado
+            var btn = document.getElementById("copiarBtn");
+            btn.innerText = "Copiado ✔";
+            btn.classList.add("copiado"); // Adiciona a classe que altera a cor para verde
         }
     </script>
 </head>
@@ -65,13 +75,11 @@
         <p>Escaneie o código com seu celular</p>
         <p>Abra o app do seu banco no celular, escolha Pix e aponte a câmera para o código</p>
 
-        <button class="btn" onclick="mostrarCodigoPix()">Pagar sem o celular</button>
-
         <!-- Container para o código Pix -->
         <div id="codigoPixContainer" class="codigo-pix">
             <p>Código Pix para copiar:</p>
             <input type="text" value="{{ codigo_pix }}" id="codigoPix" readonly>
-            <button class="btn" onclick="copiarCodigoPix()">Copiar Código</button>
+            <button id="copiarBtn" class="btn" onclick="copiarCodigoPix()">Copiar Código</button>
         </div>
     </div>
 </body>
